@@ -39,6 +39,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'trades',
+    'kombu.transport.django',
+    'djcelery',
 ]
 
 MIDDLEWARE_CLASSES = [
@@ -125,6 +127,7 @@ USE_TZ = True
 
 STATIC_URL = '/static/'
 
+# Rest framework
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
        'rest_framework.permissions.AllowAny',
@@ -132,3 +135,12 @@ REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 5
 }
+
+# email
+EMAIL_ENABLE = False
+EMAIL_HOST = 'smtp.mail'
+EMAIL_HOST_USER = 'mail@mail.com'
+EMAIL_HOST_PASSWORD = 'pass'
+EMAIL_PORT = 123
+EMAIL_USE_TLS = True
+EMAIL_RECEIPT = "mail@mail.com"

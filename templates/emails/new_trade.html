@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ subject }}</title>
+</head>
+<body>
+
+The trade {{ trade.id }} has been created on {{ trade.date_booked|date }} with the next values: <br>
+
+{{ trade.sell_currency }} - {{ trade.sell_amount }} ---> {{ trade.rate }} - {{ trade.buy_currency }} - {{ trade.buy_amount }}
+
+</body>
+</html>
