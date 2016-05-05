@@ -4,15 +4,23 @@ from trades.models import Trade, Currency
 __author__ = 'josebermudez'
 
 
-class TradeSerializer(serializers.ModelSerializer):
+class TradeCreateListSerializer(serializers.ModelSerializer):
 
    class Meta:
        model = Trade
-       fields = ("id", "sell_currency", "sell_amount", "buy_currency", "buy_amount", "rate", "date_booked")
+       fields = '__all__'
+
+
+class TradeEditSerializer(serializers.ModelSerializer):
+
+   class Meta:
+       model = Trade
+       fields = '__all__'
+       read_only_fields = ("sell_currency", "buy_currency", "buy_amount", "rate", "date_booked")
 
 
 class CurrencySerializer(serializers.ModelSerializer):
 
    class Meta:
        model = Currency
-       fields = ("name",)
+       fields = '__all__'

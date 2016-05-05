@@ -1,15 +1,15 @@
 from rest_framework.generics import ListCreateAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView
 from trades.models import Trade
-from trades.serializers import TradeSerializer, CurrencySerializer
+from trades.serializers import TradeCreateListSerializer, TradeEditSerializer, CurrencySerializer
 
 
 class TradeListView(ListCreateAPIView):
-    serializer_class = TradeSerializer
+    serializer_class = TradeCreateListSerializer
     queryset = Trade.objects.all()
 
 
 class TradeDetailView(RetrieveUpdateDestroyAPIView):
-    serializer_class = TradeSerializer
+    serializer_class = TradeEditSerializer
     queryset = Trade.objects.all()
 
 
