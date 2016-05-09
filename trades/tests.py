@@ -1,7 +1,6 @@
-import json
 from django.core.urlresolvers import reverse
 from rest_framework.test import APITestCase
-from trades.models import Currency, Trade
+from trades.models import Currency
 
 
 class TradeListViewTestCase(APITestCase):
@@ -170,7 +169,6 @@ class TradeDetailViewTestCase(APITestCase):
 
         # Edit trade
         update_trade = {
-            'id': self.trade['id'],
             'sell_amount': 2000
         }
         response = self.client.put(url, data=update_trade)
@@ -185,6 +183,45 @@ class TradeDetailViewTestCase(APITestCase):
         }
         self.assertDictContainsSubset(actual=response.data, expected=expected_response)
 
+    def test_edit_trade_id_invalid(self):
+        """
+        Test to edit a trade, with invalid ID
+        """
+        url = reverse("trades:detail", kwargs={"pk": -1})
+
+        # Edit trade
+        update_trade = {
+            'sell_amount': 2000
+        }
+        response = self.client.put(url, data=update_trade)
+        self.assertEqual(response.status_code, 404, response.data)
+
+    def test_edit_trade_sell_amount_none(self):
+        """
+        Test to edit a trade, with sell amount = None
+        """
+        url = reverse("trades:detail", kwargs={"pk": self.trade['id']})
+
+        # Edit trade
+        update_trade = {
+            'sell_amount': None
+        }
+        response = self.client.put(url, data=update_trade)
+        self.assertEqual(response.status_code, 400, response.data)
+
+    def test_edit_trade_sell_amount_invalid(self):
+        """
+        Test to edit a trade, with negative sell amount
+        """
+        url = reverse("trades:detail", kwargs={"pk": self.trade['id']})
+
+        # Edit trade
+        update_trade = {
+            'sell_amount': -1
+        }
+        response = self.client.put(url, data=update_trade)
+        self.assertEqual(response.status_code, 400, response.data)
+
     def test_delete_trade(self):
         """
         Test to delete a trade
@@ -198,3 +235,13 @@ class TradeDetailViewTestCase(APITestCase):
         # Check
         response = self.client.get(url, data={'id': self.trade['id']})
         self.assertEqual(response.status_code, 404)
+
+    def test_delete_trade_id_invalid(self):
+        """
+        Test to delete a trade, with invalid ID
+        """
+        url = reverse("trades:detail", kwargs={"pk": -1})
+
+        # Delete trade
+        response = self.client.delete(url, data={'id': self.trade['id']})
+        self.assertEqual(response.status_code, 404, response.data)
